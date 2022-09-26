@@ -25,8 +25,8 @@ function startQuiz() {
         }
     );
 
-    quizContainer.innerHTML = output.join('');
-
+    quizContainer.innerHTML = output[[Math.floor(Math.random()*5)]]
+console.log(output)
 }
 
 const quizContainer = document.getElementById('quiz');
