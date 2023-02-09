@@ -1,36 +1,50 @@
+html * {
+    font-family: Verdana,sans-serif;
+}
+
+header{
+    background-color: rgb(33, 118, 33);
+    height: 65px;
+    font-size: 45px;
+    font-weight: bolder;
+    padding: 10px;
+}
+
+.font {
+    background-color: azure;
+}
+
 .title {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.questions {
+.question {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: center;
+    font-size: large;
+    font-weight: bold;
 }
 
 .answers {
+    width: 200px;
+    border: 10px;
+    background-color: blanchedalmond;
+    margin: 20px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    margin-left: 643px;
 }
 
-.slide{
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    z-index: 1;
-    opacity: 0;
-    transition: opacity 0.5s;
-  }
-  .active-slide{
-    opacity: 1;
-    z-index: 2;
-  }
-  .quiz-container{
-    position: relative;
-    height: 200px;
-    margin-top: 40px;
-  }
+.submit-button {
+    background-color: rgb(47, 150, 47);
+    border: none;
+    color: white;
+    padding:15px 32px;
+    text-align: center;
+    font-size: 16px;
+    margin-left: 698px;
+
+}

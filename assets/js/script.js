@@ -1,122 +1,185 @@
-const quizContainer = document.getElementById('quiz');
-const resultsContainer = document.getElementById('answers');
-const submitButton = document.getElementById('submit');
-const startButton = document.getElementById('start');
-const quizQuestions = [
-    {
-        question: "this is a test question",
-        answers: {
-            a: "somtjing",
-            b: "something else",
-            c: "something elser",
-        },
-        correctAnswer: "c",
-    },
+var quizEl = document.getElementById('quiz');
+var startButton = document.getElementById('start');
+var timerEl = document.getElementById('countdown');
+var score = document.getElementById('score');
+var points = 0;
 
-    {
-        question: "this is a test question",
-        answers: {
-            a: "somtjing1",
-            b: "something else1",
-            c: "something elser1",
-        },
-        correctAnswer: "c",
+const questions = [
+  {
+    title: 'what is 1+1',
+    answers: {
+      a: '2',
+      b: '3',
+      c: '4',
     },
-
-    {
-        question: "this is a test question",
-        answers: {
-            a: "somtjing2",
-            b: "something else2",
-            c: "something elser2",
-        },
-        correctAnswer: "c",
+    correct: 'A',
+  },
+  {
+    title: 'what is 2+2',
+    answers: {
+      a: '2',
+      b: '3',
+      c: '4',
     },
-
-    {
-        question: "this is a test question",
-        answers: {
-            a: "somtjing3",
-            b: "something else3",
-            c: "something elser3",
-        },
-        correctAnswer: "c",
+    correct: 'C',
+  },
+  {
+    title: 'what is 3+3',
+    answers: {
+      a: '2',
+      b: '6',
+      c: '9',
     },
-
-    {
-        question: "this is a test question",
-        answers: {
-            a: "somtjing4",
-            b: "something else4",
-            c: "something elser4",
-        },
-        correctAnswer: "c",
+    correct: 'B',
+  },
+  {
+    title: 'what is 3+1',
+    answers: {
+      a: '332',
+      b: '3223',
+      c: '4',
     },
-
+    correct: 'C',
+  },
+  {
+    title: 'what is 11+1',
+    answers: {
+      a: '12',
+      b: '343',
+      c: '445',
+    },
+    correct: 'A',
+  },
+  {
+    title: 'what is 14+1',
+    answers: {
+      a: '2',
+      b: '15',
+      c: '4',
+    },
+    correct: 'B',
+  },
 ]
 
-function startQuiz() {
+console.log(questions);
 
-    titleScreen.remove()
 
-    const output = [];
 
-    quizQuestions.forEach(
-        (currentQuestion, questionNumber) => {
+startButton.addEventListener("click", function startQuiz() {
 
-            const answers = [];
+  var timeLeft = 60;
+  var timeInterval = setInterval(function () {
+    if (timeLeft > 1) {
+      timerEl.textContent = timeLeft + ' seconds remaining';
+      timeLeft--;
+    } else if (timeLeft === 1) {
+      timerEl.textContent = timeLeft + ' second remaining';
+      timeLeft--;
+    } else {
+      timerEl.textContent = '';
+      clearInterval(timeInterval);
+      endQuiz();
+    }
+  }, 1000);
 
-            for(letter in currentQuestion.answers){
+for(let i = 0; i < questions.length; i--){
+    var answer = questions[i].correct;
+    quizEl.innerHTML = `
+    <h1> ${questions[i].title} </h1>
+    <button id='A' value='A'> ${questions[i].answers.a} </button>
+    <button id='B' value='B'> ${questions[i].answers.b} </button>
+    <button id='C' value='C'> ${questions[i].answers.c} </button>
+    `
 
-                answers.push(
-                    `<label>
-                        <input type="radio" name="question${questionNumber}" value="${letter}">
-                        ${letter} : 
-                        ${currentQuestion.answers[letter]}
-                    </label>`
-                );
-            }
+    const buttonA = document.getElementById('A');
+    const buttonB = document.getElementById('B');
+    const buttonC = document.getElementById('C');
 
-            output.push(
-                `<div class ="question"> ${currentQuestion.question} </div>
-                <div class ="answers"> ${answers.join('')} </div>`
-            );
+    
+
+    function answerBtnA() {
+      if (document.getElementById('A').value === answer) {
+        nextQuestionC();
+      } else {
+        nextQuestionI();
+      }
+    }
+
+    function answerBtnB() {
+      if (document.getElementById('B').value === answer) {
+        nextQuestionC();
+      } else {
+        nextQuestionI();
+      }
+    }
+
+    function answerBtnC() {
+      if (document.getElementById('C').value === answer) {
+        nextQuestionC();
+      } else {
+        nextQuestionI();
+      }
+    }
+
+    buttonA.addEventListener("click", answerBtnA)
+    buttonB.addEventListener("click", answerBtnB)
+    buttonC.addEventListener("click", answerBtnC)
+
+    function nextQuestionC() {
+      var nextTime = 2;
+      var correctInterval = setInterval(function () {
+        if (nextTime > 1) {
+          quizEl.innerHTML = `<h1> Correct </h1>`
+          nextTime--;
+        } else {
+          clearInterval(correctInterval);
+          quizEl.innerHTML = `
+          <h1> ${questions[i++].title} </h1>
+          <button id='A' value='A'> ${questions[i].answers.a} </button>
+          <button id='B' value='B'> ${questions[i].answers.b} </button>
+          <button id='C' value='C'> ${questions[i].answers.c} </button>
+          `
+          const buttonA = document.getElementById('A');
+          const buttonB = document.getElementById('B');
+          const buttonC = document.getElementById('C');
+          buttonA.addEventListener("click", answerBtnA)
+          buttonB.addEventListener("click", answerBtnB)
+          buttonC.addEventListener("click", answerBtnC)
         }
-    );
+      }, 1000);
+    }
 
-    quizContainer.innerHTML = output.join('');
-console.log(output)
-}
+    function nextQuestionI() {
+      var nextTime = 2;
+      var correctInterval = setInterval(function () {
+        if (nextTime > 1) {
+          quizEl.innerHTML = `<h1> Incorrect </h1>`
+          nextTime--;
+        } else {
+          clearInterval(correctInterval);
+          quizEl.innerHTML = `
+          <h1> ${questions[i].title} </h1>
+          <button id='A' value='A'> ${questions[i].answers.a} </button>
+          <button id='B' value='B'> ${questions[i].answers.b} </button>
+          <button id='C' value='C'> ${questions[i].answers.c} </button>
+          `
+          const buttonA = document.getElementById('A');
+          const buttonB = document.getElementById('B');
+          const buttonC = document.getElementById('C');
+          buttonA.addEventListener("click", answerBtnA)
+          buttonB.addEventListener("click", answerBtnB)
+          buttonC.addEventListener("click", answerBtnC)
+        }
+      }, 1000);
 
-function showResults(){
-
-    const answerContainers = quizContainer.querySelectorAll('.answers');
-
-    let numCorrect = 0;
-  
-    quizQuestions.forEach( (currentQuestion, questionNumber) => {
-  
-
-      const answerContainer = answerContainers[questionNumber];
-      const selector = `input[name=question${questionNumber}]:checked`;
-      const userAnswer = (answerContainer.querySelector(selector) || {}).value;
-
-      if(userAnswer === currentQuestion.correctAnswer){
-        numCorrect++;
-        answerContainers[questionNumber].style.color = 'lightgreen';
-      }
-
-      else{
-         answerContainers[questionNumber].style.color = 'red';
-        window.alert("Please select an answer!")
-      }
-      console.log(questionNumber)
-    });
-  
-    resultsContainer.innerHTML = `${numCorrect} out of ${quizQuestions.length}`;
+    }
   }
   
-  const answerContainers = quizContainer.querySelectorAll('.answers');
-  
-startButton.addEventListener('click', startQuiz);
-submitButton.addEventListener('click', showResults);
+})
+
+function endQuiz() {
+
+  quizEl.innerHTML = `<h1> Quiz Finished! </h1>`
+
+}
+
